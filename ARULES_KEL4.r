@@ -1,5 +1,5 @@
 ### KELOMPOK 4 ###
-### INSTALASI PACKAGE YANG DIPERLUKAN, JIKA SUDAH DI INSTTALL TIDAK PERLU DI RUN LAGI
+### INSTALASI PACKAGE YANG DIPERLUKAN, JIKA SUDAH DI INSTALL TIDAK PERLU DI RUN LAGI
 # install.packages("arules")    # package untuk membuat association rules
 # install.packages("arulesViz") # package untuk memvisualisasikan plot hasil rules yang dibuat
 # install.package("dplyr")      # package untuk membenarkan nama pada dataset
