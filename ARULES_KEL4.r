@@ -65,7 +65,6 @@ data$ITEM <- gsub("OBAT NYAMUK|HIT (PEMBUNUH NYAMUK)|LOTION ANTI NANYMUK|HIT|BAY
   data <- data %>%
   mutate(ITEM = gsub("REPELLANT HEWAN \\(PEMBUNUH NYAMUK\\)", "REPELLANT HEWAN", ITEM))
   
-
 # KEBUTUHAN RUMAH TANGGA
 data$ITEM <- gsub("MADU TJ|MADU|GULA PUTIH|GULA PASIR|GULA MERAH|GULA DIABET", "PEMANIS", data$ITEM)
 data$ITEM <- gsub("DELMONTE|DELMONTE EXTRA HOT PET|MAYUMI|MAYONAISE|MAYONNAISE|SAMBAL|KECAP MANIS|KECAP ASIN|KECAP|SAUS MAKANAN RINGAN|SAUS SAMBAL|SAUS BULGOGI|SARDEN ABC SAUS TOMAT|SAUS GOCHUJANG|SAUS BOLOGNESE|SAUS SAMBAL EXTRA PEDAS ABC|SAUS TIRAM|SAUS TOMAT|SAUS TIRAM|SAOS ABC|SAOS SAMBEL|SAOS TERIYAKI|SAOS CABE|SAOS TIRAM|SAOS TOMAT|SAUS", "SAUS", data$ITEM)
@@ -164,9 +163,26 @@ unique_items
 View(data)  # menampilkan tabel dataset
 head(data)  # menampilkan sebagian data
 
-### MEMBUAT ASSOCIATION RULES ###
+### MEMBAGI DATA TRAIN DAN DATA TEST ###
+set.seed(123) # mengacak data
+index_train <- sample(nrow(data), 0.8 * nrow(data))
+data_train <- data[index_train, ]   # data train (80%)
+data_test <- data[-index_train, ]   # data test (20%)
+
+# mengubah data menjadi dalam bentuk data frame
 data <- as.data.frame(data)
-transactions <- strsplit(data$ITEM, ", ")
+data_train <- as.data.frame(data_train)
+data_test <- as.data.frame(data_test)
+colnames(data_train) <- "ITEM"
+colnames(data_test) <- "ITEM"
+
+View(data_train)
+View(data_test)
+head(data_train)
+head(data_test)
+
+### MEMBUAT ASSOCIATION RULES DARI DATA TRAIN ###
+transactions <- strsplit(data_train$ITEM, ", ")
 trans <- as(transactions, "transactions")
 rules <- apriori(
     trans, 
