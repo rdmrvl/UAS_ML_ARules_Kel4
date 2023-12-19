@@ -529,3 +529,7 @@ for (i in 1:nrow(dataTest)) {
 for (i in 1:nrow(dataTest)) {
   dataTest$`ITEM TRANSAKSI`[[i]] <- paste(dataTest$`ITEM TRANSAKSI`[[i]], collapse = ", ")
 }
+for (i in 1:nrow(dataTest)) {
+  # Menghapus kurung kurawal {} dari kolom 'PREDIKSI'
+  dataTest$PREDIKSI[i] <- gsub("\\{|\\}", "", dataTest$PREDIKSI[i])
+}
