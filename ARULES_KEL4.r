@@ -212,9 +212,9 @@ new_transaction <- c("SHAMPOO", "SABUN MANDI", "PERMEN")      # ganti dengan dat
 predicted_items <- make_predictions(new_transaction, rules)   # memanggil fungsi untuk memberi prediksi/rekomendasi dari transaksi baru
 inspect(predicted_items)                                      # menampilkan barang yang di rekomendasikan
 
-##########################################################################################################################################################
-##########################################################################################################################################################
-
+#############################################################################
+#############################################################################
+#############################################################################
 ### UJI COBA MENCOBA PREDIKSI DARI DATA TEST ###
 # import data test ke R Studio
 dataTest <- readxl::read_excel("C:/Users/Marvel/Downloads/DataTestingTransaksi.xlsx", col_names = TRUE)
@@ -512,12 +512,20 @@ make_predictions <- function(new_transaction, rules) {
   return(recommended_items)
 }
 
-# memprediksi setiap baris transaksi pada kolom 'item transaksi' pada 'dataTest
 for (i in 1:nrow(dataTest)) {
   new_transaction <- dataTest$`ITEM TRANSAKSI`[[i]]             # mengakses transaksi dari dataTest
   predicted_items <- make_predictions(new_transaction, rules)   # membuat prediksi dari data transaksi tersebut
   cat("PREDIKSI/REKOMENDASI KE:", i, "\n")  # Print the line number being predicted
   inspect(predicted_items)                  # menampilkan barang yang diprediksi
+  
+  # Mengubah list hasil prediksi menjadi string dipisahkan oleh koma
+  predicted_items_string <- toString(labels(predicted_items))
+  
+  # Menyimpan hasil prediksi ke dalam kolom 'PREDIKSI'
+  dataTest$PREDIKSI[i] <- predicted_items_string
 }
 
-
+# mengubah list 'item transaksi' menjadi bentuk string biasa lagi pada tabel dataTest
+for (i in 1:nrow(dataTest)) {
+  dataTest$`ITEM TRANSAKSI`[[i]] <- paste(dataTest$`ITEM TRANSAKSI`[[i]], collapse = ", ")
+}
